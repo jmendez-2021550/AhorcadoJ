@@ -3,21 +3,15 @@ package Controlador;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.PrintWriter;
-import org.jeremymendez.modelo.Palabras;
-import org.jeremymendez.modelo.PalabrasDAO;
-import org.jeremymendez.modelo.Usuarios;
-import org.jeremymendez.modelo.UsuariosDAO;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 @WebServlet(name = "ControladorAhorcado", urlPatterns = {"/ControladorAhorcado"})
 public class Controlador extends HttpServlet {
-
-    PalabrasDAO palabrasDao = new PalabrasDAO();
-    UsuariosDAO usuariosDao = new UsuariosDAO();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -25,54 +19,51 @@ public class Controlador extends HttpServlet {
         String menu = request.getParameter("menu");
         String accion = request.getParameter("accion");
 
-        // --- Lógica de Autenticación ---
-        if ("Login".equals(menu)) {
-            if ("ValidarIngreso".equals(accion)) {
-                String email = request.getParameter("txtCorreo");
-                String pass = request.getParameter("txtPassword");
-                
-                Usuarios usuario = usuariosDao.validar(email, pass);
+        if ("Juego".equals(menu) && "obtenerPalabra".equals(accion)) {
+            response.setContentType("text/plain");
+            response.setCharacterEncoding("UTF-8");
+            PrintWriter out = response.getWriter();
 
-                if (usuario != null) {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("usuarioLogueado", usuario);
+            try {
+                URL url = new URL("http://localhost:8081/api/words"); //
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("GET");
+                con.setRequestProperty("Accept", "application/json");
 
-                    if (usuario.getTipoUsuario() == Usuarios.TipoUsuarios.Cliente) {
-                        request.getRequestDispatcher("JSP/PrincipalCliente.jsp").forward(request, response);
-                    } else {
-                        request.setAttribute("mensaje", "Bienvenido, " + usuario.getNombreUsuario());
-                        request.getRequestDispatcher("JSP/PrincipalCliente.jsp").forward(request, response);
-                    }
-                } else {
-                    request.setAttribute("errorLogin", "Correo o contraseña incorrectos");
-                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                StringBuilder content = new StringBuilder();
+                String inputLine;
+                while ((inputLine = in.readLine()) != null) {
+                    content.append(inputLine);
                 }
-            } else if ("CerrarSesion".equals(accion)) {
-                HttpSession session = request.getSession();
-                session.invalidate();
-                request.getRequestDispatcher("index.jsp").forward(request, response);
+                in.close();
+                con.disconnect();
+
+                // Procesa el JSON manualmente (sin org.json)
+                String json = content.toString();
+                String[] palabras = json.split("\\},\\{");
+                if (palabras.length > 0) {
+                    int idx = (int) (Math.random() * palabras.length);
+                    String palabra = palabras[idx];
+
+                    String word = extraerCampo(palabra, "\"word\":\"");
+                    String hint1 = extraerCampo(palabra, "\"hint1\":\"");
+                    String hint2 = extraerCampo(palabra, "\"hint2\":\"");
+                    String hint3 = extraerCampo(palabra, "\"hint3\":\"");
+
+                    out.print((word != null ? word : "") + "|" +
+                              (hint1 != null ? hint1 : "") + "|" +
+                              (hint2 != null ? hint2 : "") + "|" +
+                              (hint3 != null ? hint3 : ""));
+                } else {
+                    out.print("ERROR|No se encontró ninguna palabra|||");
+                }
+            } catch (Exception e) {
+                out.print("ERROR|No se pudo conectar con la API de palabras|||");
             }
-        }
-        // --- Lógica del Juego Ahorcado ---
-        else if ("Juego".equals(menu) && "obtenerPalabra".equals(accion)) {
-    response.setContentType("text/plain");
-    response.setCharacterEncoding("UTF-8");
-    PrintWriter out = response.getWriter();
-
-    Palabras palabra = palabrasDao.obtenerPalabraAleatoria();
-
-    if (palabra != null) {
-        // Formato: palabra|pista1|pista2|pista3
-        out.print(palabra.getPalabra() + "|" +
-                  (palabra.getPista1() != null ? palabra.getPista1() : "") + "|" +
-                  (palabra.getPista2() != null ? palabra.getPista2() : "") + "|" +
-                  (palabra.getPista3() != null ? palabra.getPista3() : ""));
-    } else {
-        out.print("ERROR|No se encontró ninguna palabra|||");
-    }
-    out.flush();
-    return;
-}else {
+            out.flush();
+            return;
+        } else {
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
     }
@@ -87,5 +78,15 @@ public class Controlador extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+    }
+
+    // Método auxiliar para extraer campos de un JSON plano
+    private String extraerCampo(String texto, String campo) {
+        int idx = texto.indexOf(campo);
+        if (idx == -1) return null;
+        int start = idx + campo.length();
+        int end = texto.indexOf("\"", start);
+        if (end == -1) return null;
+        return texto.substring(start, end);
     }
 }

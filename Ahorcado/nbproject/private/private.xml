@@ -13,10 +13,8 @@
             <file>file:/C:/Users/jerem/Documents/NetBeansProjects/Ahorcado/web/index/Ahorcado.jsp</file>
             <file>file:/C:/Users/jerem/Documents/NetBeansProjects/Ahorcado/src/java/Controlador/Controlador.java</file>
             <file>file:/C:/Users/jerem/Documents/NetBeansProjects/Ahorcado/src/java/Controlador/Validar.java</file>
-            <file>file:/C:/Users/jerem/Documents/NetBeansProjects/Ahorcado/src/java/org/jeremymendez/modelo/Palabras.java</file>
-            <file>file:/C:/Users/jerem/Documents/NetBeansProjects/Ahorcado/src/java/org/jeremymendez/modelo/PalabrasDAO.java</file>
-            <file>file:/C:/Users/jerem/Documents/NetBeansProjects/Ahorcado/src/java/org/jeremymendez/modelo/Usuarios.java</file>
-            <file>file:/C:/Users/jerem/Documents/NetBeansProjects/Ahorcado/src/java/org/jeremymendez/modelo/UsuariosDAO.java</file>
+            <file>file:/C:/Users/jerem/Documents/NetBeansProjects/Ahorcado/src/java/org/jeremymendez/modelo/words.java</file>
+            <file>file:/C:/Users/jerem/Documents/NetBeansProjects/Ahorcado/src/java/org/jeremymendez/modelo/users.java</file>
         </group>
     </open-files>
 </project-private>
