@@ -20,15 +20,8 @@ public class users {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "user_type", nullable = false)
-    private UserType user_type;
-
-    // Enum para los tipos de usuario
-    public enum UserType {
-        Client,
-        Employee
-    }
+    private String user_type; // Cambiado de UserType a String
 
     // Getters y Setters
     public Integer getUser_id() {
@@ -63,11 +56,11 @@ public class users {
         this.password = password;
     }
 
-    public UserType getUser_type() {
+    public String getUser_type() {
         return user_type;
     }
 
-    public void setUser_type(UserType user_type) {
+    public void setUser_type(String user_type) {
         this.user_type = user_type;
     }
 }

@@ -40,7 +40,7 @@ public class usersController {
         if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
             return ResponseEntity.badRequest().body("El campo password está vacío");
         }
-        if (user.getUser_type() == null) {
+        if (user.getUser_type() == null || user.getUser_type().trim().isEmpty()) {
             return ResponseEntity.badRequest().body("El campo user_type está vacío");
         }
 
@@ -67,7 +67,18 @@ public class usersController {
     }
 
     @PutMapping("/{user_id}")
-    public ResponseEntity<?> updateUser(@PathVariable Integer user_id, @RequestBody users user) {
+    public ResponseEntity<?> updateUser(@PathVariable(required = false) Integer user_id, @RequestBody users user) {
+        // Validación de id no proporcionado
+        if (user_id == null) {
+            return ResponseEntity.badRequest().body("No colocaste el id que quieres actualizar");
+        }
+
+        // Validar que el usuario con ese id exista antes de actualizar
+        users existingUser = usersService.getUserById(user_id);
+        if (existingUser == null) {
+            return ResponseEntity.badRequest().body("No existe ningún usuario con ese id");
+        }
+
         // Validación de campos vacíos
         if (user.getUsername() == null || user.getUsername().trim().isEmpty()) {
             return ResponseEntity.badRequest().body("El campo username está vacío");
@@ -78,7 +89,7 @@ public class usersController {
         if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
             return ResponseEntity.badRequest().body("El campo password está vacío");
         }
-        if (user.getUser_type() == null) {
+        if (user.getUser_type() == null || user.getUser_type().trim().isEmpty()) {
             return ResponseEntity.badRequest().body("El campo user_type está vacío");
         }
 
@@ -88,7 +99,7 @@ public class usersController {
             return ResponseEntity.badRequest().body("Correo inválido, los correos permitidos son gmail, kinal.edu.gt y yahoo.com");
         }
 
-        // Validación de unicidad (no permitir actualizar a un username/email ya existente en otro usuario)
+        // Validación de unicidad (no permitir actualizar a un username/email/password ya existente en otro usuario)
         List<users> existingUsers = usersService.getAllUsers();
         for (users u : existingUsers) {
             if (!u.getUser_id().equals(user_id)) {
@@ -98,18 +109,23 @@ public class usersController {
                 if (u.getEmail().equalsIgnoreCase(user.getEmail())) {
                     return ResponseEntity.badRequest().body("El email ya está en uso");
                 }
+                if (u.getPassword().equals(user.getPassword())) {
+                    return ResponseEntity.badRequest().body("La contraseña ya está en uso");
+                }
             }
         }
 
         users updatedUser = usersService.updateUser(user_id, user);
-        if (updatedUser == null) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(updatedUser);
     }
 
     @DeleteMapping("/{user_id}")
-    public void deleteUser(@PathVariable Integer user_id) {
+    public ResponseEntity<?> deleteUser(@PathVariable Integer user_id) {
+        users user = usersService.getUserById(user_id);
+        if (user == null) {
+            return ResponseEntity.badRequest().body("No existe ningún usuario con ese id");
+        }
         usersService.deleteUser(user_id);
+        return ResponseEntity.ok("Usuario eliminado correctamente");
     }
 }

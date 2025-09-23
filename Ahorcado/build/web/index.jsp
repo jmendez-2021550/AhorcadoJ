@@ -11,83 +11,168 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/material-icons@1.13.12/iconfont/material-icons.min.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container">
-            <div class="logo">Ahorc<span>ado</span></div>
-        </div>
-    </nav>
-    <section>
-        <div class="container">
-            <div class="segundo_contenedor">
-                <!-- Columna de información -->
-                <div class="informacion">
-                    <span class="line"></span>
-                    <h2>Bienvenido al <br><span>Juego del Ahorcado</span></h2>
-                    <p>Demuestra tu habilidad adivinando palabras antes de que se complete el ahorcado.</p>
+    <!-- Header con navegación mejorada -->
+    <header class="main-header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-content">
+                    <div class="logo-section">
+                        <i class="fas fa-dice game-icon"></i>
+                        <div class="logo">Ahorc<span>ado</span></div>
+                        <div class="logo-subtitle">Juego de Palabras</div>
+                    </div>
+                    <div class="nav-decorations">
+                        <div class="floating-letters">
+                            <span class="letter">A</span>
+                            <span class="letter">B</span>
+                            <span class="letter">C</span>
+                        </div>
                     </div>
                 </div>
+            </div>
+        </nav>
+    </header>
 
-                <!-- Columna de login/registro -->
-                <div class="login">
-                    <div class="form">
-                        <div class="text-center">
-                            <h6><span>Iniciar Sesión</span> <span>Registrarse</span></h6>
-                            <input type="checkbox" class="checkbox" id="reg-log">
-                            <label for="reg-log"></label>
-                            <div class="card-3d-wrap">
-                                <div class="card-3d-wrapper">
-                                    <!-- FORMULARIO DE LOGIN -->
-                                    <div class="card-front">
-                                        <div class="center-wrap">
-                                            <form action="ValidarLoginAhorcado" method="Post">
-                                                <h4 class="heading">Inicio de Sesión</h4>
-                                                <div class="form-group">
-                                                    <input type="text" name="txtCorreo" id="txtUsuario" class="form-style" placeholder="Usuario" autocomplete="off" required>
-                                                    <i class="input-icon material-icons">person</i>
-                                                </div>
-                                                <div class="form-group">
-                                                    <input type="password" name="txtPassword" id="txtPassword" class="form-style" placeholder="Contraseña" autocomplete="off" required>
-                                                    <i class="input-icon material-icons">lock</i>
-                                                </div>
-                                                <center>
-                                                    <input type="submit" class="btnIniciar" name="accion" value="Ingresar">
-                                                </center>
-                                                <p class="text-center">
-                                                    <a href="#" class="link">¿Olvidaste tu contraseña?</a>
-                                                </p>
-                                            </form>
-                                        </div>
-                                    </div>
-                                    <!-- FORMULARIO DE REGISTRO -->
-                                    <div class="card-back">
-                                        <div class="center-wrap">
-                                            <form action="Controlador?menu=Usuarios&accion=RegistroLogin" method="post">
-                                                <h4 class="heading">Registrarse</h4>
-                                                <div class="form-group">
-                                                    <input type="text" name="txtUsuarioR" id="usuario_registro" class="form-style" placeholder="Usuario" autocomplete="off" required>
-                                                    <i class="input-icon material-icons">person</i>
-                                                </div>
-                                                <div class="form-group">
-                                                    <input type="password" name="txtPasswordR" id="password_registro" class="form-style" placeholder="Contraseña" autocomplete="off" required>
-                                                    <i class="input-icon material-icons">lock</i>
-                                                </div>
-                                                <div class="form-group">
-                                                    <input type="password" name="confirmar" id="confirmar_registro" class="form-style" placeholder="Confirmar contraseña" autocomplete="off" required>
-                                                    <i class="input-icon material-icons">lock</i>
-                                                </div>
-                                                <center>
-                                                    <button type="submit" class="btnRegistrar">Registrarme</button>
-                                                </center>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <div class="background-pattern"></div>
+        <div class="container">
+            <div class="game-layout">
+                
+                <!-- Panel de bienvenida mejorado -->
+                <section class="welcome-panel">
+                    <div class="panel-header">
+                        <i class="fas fa-gamepad welcome-icon"></i>
+                        <div class="decorative-line"></div>
+                    </div>
+                    <div class="welcome-content">
+                        <h2 class="welcome-title">
+                            <span class="title-main">Bienvenido al</span>
+                            <span class="title-game">Juego del Ahorcado</span>
+                        </h2>
+                        <div class="game-description">
+                            <p class="description-text">
+                                <i class="fas fa-brain brain-icon"></i>
+                                Demuestra tu habilidad adivinando palabras antes de que se complete el ahorcado.
+                            </p>
+                            <p class="challenge-text">
+                                <i class="fas fa-trophy trophy-icon"></i>
+                                ¿Seras capaz de salvar al alumno de <strong>Kinal</strong>?
+                            </p>
+                        </div>
+                        <div class="game-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-clock"></i>
+                                <span>Tiempo ilimitado</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-heart"></i>
+                                <span>6 intentos</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-star"></i>
+                                <span>Multiples niveles</span>
                             </div>
                         </div>
                     </div>
-                </div><!-- /login -->
+                </section>
+
+                <!-- Mascota del juego (Kinalero) -->
+                <aside class="mascot-section">
+                    <div class="mascot-container">
+                        <div class="mascot-frame">
+                            <a href="image/kinalero.png" target="_blank" title="Ver imagen del alumno Kinal">
+                                <img src="image/kinalero.png" alt="Alumno Kinal - Mascota del juego" class="kinalero-img">
+                            </a>
+                            <div class="mascot-speech">
+                                <i class="fas fa-comment-dots"></i>
+                                <span>¡Ayudame!</span>
+                            </div>
+                        </div>
+                        <div class="mascot-info">
+                            <h3 class="mascot-name">Estudiante Kinal</h3>
+                            <p class="mascot-description">Tu mision es salvarlo</p>
+                        </div>
+                    </div>
+                    <div class="gallows-preview">
+                        <i class="fas fa-tools"></i>
+                        <span>Horca preparada</span>
+                    </div>
+                </aside>
+
+                <!-- Panel de login mejorado -->
+                <section class="login-panel">
+                    <div class="login-container">
+                        <div class="login-header">
+                            <div class="login-icon-bg">
+                                <i class="fas fa-user-circle login-main-icon"></i>
+                            </div>
+                            <h3 class="login-title">Inicio de Sesion</h3>
+                            <p class="login-subtitle">Accede para comenzar tu aventura</p>
+                        </div>
+                        
+                        <form action="ValidarLoginAhorcado" method="Post" class="login-form">
+                            <div class="form-section">
+                                <div class="input-group">
+                                    <div class="input-wrapper">
+                                        <i class="input-icon material-icons">person</i>
+                                        <input type="text" name="txtCorreo" id="txtUsuario" class="form-control" placeholder="Ingresa tu usuario" autocomplete="off" required>
+                                        <div class="input-underline"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="input-group">
+                                    <div class="input-wrapper">
+                                        <i class="input-icon material-icons">lock</i>
+                                        <input type="password" name="txtPassword" id="txtPassword" class="form-control" placeholder="Ingresa tu contraseña" autocomplete="off" required>
+                                        <div class="input-underline"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="btn-login" name="accion" value="Ingresar">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                    <span>Comenzar Juego</span>
+                                    <div class="btn-shine"></div>
+                                </button>
+                            </div>
+                            
+                            <div class="login-footer">
+                                <div class="security-badge">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <span>Conexión segura</span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
             </div>
         </div>
-    </section>
+    </main>
+
+    <!-- Footer decorativo -->
+    <footer class="game-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-game-info">
+                    <i class="fas fa-dice-d20"></i>
+                    <span>Juego Educativo - Instituto Kinal</span>
+                </div>
+                <div class="footer-social">
+                    <a href="#" class="social-link" title="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-link" title="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="social-link" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

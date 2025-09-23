@@ -15,23 +15,12 @@ Create table users (
     username varchar(100) not null,
     email varchar(100) not null unique,
     password varchar(255) not null,
-    user_type enum('Client', 'Employee') not null
+    user_type Varchar(50) not null
 );
 
 insert into words (word, hint1, hint2, hint3) values
-('PROGRAMACION', 'Se refiere a escribir código', 'Requiere lógica', 'Es la base de software'),
-('JAVASCRIPT', 'Lenguaje de scripting', 'Para desarrollo web', 'Permite interactividad'),
-('HTML', 'Lenguaje de marcas', 'Estructura páginas web', 'No es un lenguaje de programación'),
-('CSS', 'Hojas de estilo', 'Para dar diseño', 'Define apariencia visual'),
-('PYTHON', 'Lenguaje versátil', 'Popular en ciencia de datos', 'Sintaxis clara'),
-('VARIABLE', 'Contenedor de datos', 'Su valor puede cambiar', 'Se declara con un nombre'),
-('FUNCION', 'Bloque de código', 'Realiza una tarea específica', 'Puede recibir parámetros'),
-('BUCLE', 'Repetición de acciones', 'Hasta que se cumpla una condición', 'Ej: FOR, WHILE'),
-('OBJETO', 'Estructura de datos', 'Propiedades y métodos', 'Representa entidades'),
-('CLASE', 'Plantilla para objetos', 'Define estructura y comportamiento', 'Programación orientada a objetos'),
-('CADENA', 'Secuencia de caracteres', 'Texto', 'Representada entre comillas'),
-('BOOLEANO', 'Tipo de dato', 'Verdadero o falso', 'Lógica'),
-('METODO', 'Función asociada a un objeto', 'Realiza una acción', 'Ej: array.push()');
+('PROGRAMACION', 'Se refiere a escribir código', 'Requiere lógica', 'Es la base de software');
+
 
 
 -- ----------------- Insert sample users -----------------
